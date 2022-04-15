@@ -11,13 +11,16 @@ namespace CabReservation
         readonly int PricePerKilometer;
         readonly int PricePerMinute;
         readonly int MinimumFare;
+        public int NumOfRides;
+        public double TotalFare;
+        public double AveragePerRide;
         public InvoiceGenerator()
         {
             this.PricePerKilometer = 10;
             this.PricePerMinute = 1;
             this.MinimumFare = 5;
         }
-        public double TotalFearForSingleRide(Ride ride)
+        public double TotalFareForSingleRide(Ride ride)
         {
             if(ride.distance < 0)
             {
@@ -28,6 +31,14 @@ namespace CabReservation
                 throw new CabReservationException(CabReservationException.ExceptionType.INVALID_TIME, "Time is Invalid");
             }
             return Math.Max(MinimumFare, ride.distance * PricePerKilometer + ride.time * PricePerMinute);
+        }
+        public double TotalFareForMultipleRides(List<Ride> rides)
+        {
+            foreach(Ride ride in rides)
+            {
+                TotalFare += TotalFareForSingleRide(ride);
+            }
+            return TotalFare;
         }
     }
 }

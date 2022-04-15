@@ -1,5 +1,6 @@
 using CabReservation;
 using NUnit.Framework;
+using System.Collections.Generic;
 
 namespace CabReservationTest
 {
@@ -20,7 +21,7 @@ namespace CabReservationTest
         {
             Ride ride = new Ride(distance, time);
             int expected = 53;
-            Assert.AreEqual(expected, generator.TotalFearForSingleRide(ride));
+            Assert.AreEqual(expected, generator.TotalFareForSingleRide(ride));
         }
         /// <summary>
         /// TC1.1 - Check for Invalid Distance
@@ -29,7 +30,7 @@ namespace CabReservationTest
         public void Given_InvalidDistance_ThrowException()
         {
             Ride ride = new Ride(-1, 1);
-            CabReservationException cabReservationException = Assert.Throws<CabReservationException>(() => generator.TotalFearForSingleRide(ride));
+            CabReservationException cabReservationException = Assert.Throws<CabReservationException>(() => generator.TotalFareForSingleRide(ride));
             Assert.AreEqual(CabReservationException.ExceptionType.INVALID_DISTANCE, cabReservationException.type);
         }
         /// <summary>
@@ -39,8 +40,25 @@ namespace CabReservationTest
         public void Given_InvalidTime_ThrowException()
         {
             Ride ride = new Ride(1, -1);
-            CabReservationException cabReservationException = Assert.Throws<CabReservationException>(() => generator.TotalFearForSingleRide(ride));
+            CabReservationException cabReservationException = Assert.Throws<CabReservationException>(() => generator.TotalFareForSingleRide(ride));
             Assert.AreEqual(CabReservationException.ExceptionType.INVALID_TIME, cabReservationException.type);
+        }
+        /// <summary>
+        /// UC2 - Total fare for Multiple rides 
+        /// </summary>
+        [Test]
+        public void Given_ListOfRides_GenerateInvoice()
+        {
+            Ride rideOne = new Ride(4, 4);
+            Ride rideTwo = new Ride(2, 1);
+            Ride rideThree = new Ride(3, 1);    
+
+            List<Ride> rides = new List<Ride>();
+            rides.Add(rideOne);
+            rides.Add(rideTwo);
+            rides.Add(rideThree);
+
+            Assert.AreEqual(96.0d, generator.TotalFareForMultipleRides(rides));            
         }
     }
 }
