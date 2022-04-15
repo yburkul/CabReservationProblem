@@ -47,7 +47,7 @@ namespace CabReservationTest
         /// UC2 - Total fare for Multiple rides 
         /// </summary>
         [Test]
-        public void Given_ListOfRides_GenerateInvoice()
+        public void Given_DistanceAndTime_CalculteFareForMultipleRide()
         {
             Ride rideOne = new Ride(4, 4);
             Ride rideTwo = new Ride(2, 1);
@@ -57,8 +57,26 @@ namespace CabReservationTest
             rides.Add(rideOne);
             rides.Add(rideTwo);
             rides.Add(rideThree);
+            Assert.AreEqual(96.0d, generator.TotalFareForMultipleRides(rides));          
+        }
+        /// <summary>
+        /// UC3- Calculte Total number of Rides and Average Fare per Ride
+        /// </summary>
+        [Test]
+        public void Given_DistanceAndTime_Calculte_NumOfRidesAndAvgFarePerRide()
+        {
+            Ride rideOne = new Ride(4, 4);
+            Ride rideTwo = new Ride(2, 1);
+            Ride rideThree = new Ride(3, 1);
 
-            Assert.AreEqual(96.0d, generator.TotalFareForMultipleRides(rides));            
+            List<Ride> rides = new List<Ride>();
+            rides.Add(rideOne);
+            rides.Add(rideTwo);
+            rides.Add(rideThree);
+
+            Assert.AreEqual(96.0d, generator.TotalFareForMultipleRides(rides));
+            Assert.AreEqual(32.0d, generator.AveragePerRide);
+            Assert.AreEqual(3, generator.NumOfRides);
         }
     }
 }
