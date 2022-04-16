@@ -6,7 +6,7 @@ namespace CabReservation
     {
         public static void Main(string[] args)
         {
-            Console.WriteLine("Welcome in Cab Reservation Problem");
+            Console.WriteLine("Welcome In Cab Reservation Problem");
         }
     }
 }
