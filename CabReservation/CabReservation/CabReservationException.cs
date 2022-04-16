@@ -11,7 +11,7 @@ namespace CabReservation
         public ExceptionType type;
         public enum ExceptionType
         {
-            INVALID_DISTANCE, INVALID_TIME
+            INVALID_DISTANCE, INVALID_TIME, INVALID_USER_ID
         }
         public CabReservationException(ExceptionType type, string message) : base(message)
         {

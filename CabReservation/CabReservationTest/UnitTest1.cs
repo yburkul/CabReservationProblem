@@ -7,10 +7,12 @@ namespace CabReservationTest
     public class Tests
     {
         InvoiceGenerator generator;
+        RideRepository rideRepository;
         [SetUp]
         public void Setup()
         {
             generator = new InvoiceGenerator();
+            rideRepository = new RideRepository();
         }
         /// <summary>
         /// UC 1- Total Fare for Single Ride
@@ -77,6 +79,35 @@ namespace CabReservationTest
             Assert.AreEqual(96.0d, generator.TotalFareForMultipleRides(rides));
             Assert.AreEqual(32.0d, generator.AveragePerRide);
             Assert.AreEqual(3, generator.NumOfRides);
+        }
+        /// <summary>
+        /// UC4.1- Check fare of user using valid UserID
+        /// </summary>
+        [Test]
+        public void Given_ValidUserID_InvoicService()
+        {
+            Ride rideOne = new Ride(4, 4);
+            Ride rideTwo = new Ride(2, 1);
+            rideRepository.AddRide("YB", rideOne);
+            rideRepository.AddRide("YB", rideTwo);
+
+            Assert.AreEqual(65.0d, generator.TotalFareForMultipleRides(rideRepository.getListByUserId("YB")));
+            Assert.AreEqual(32.5d, generator.AveragePerRide);
+            Assert.AreEqual(2, generator.NumOfRides);
+        }
+        /// <summary>
+        /// UC 4.2 - Given Invalid User Id Throws Exception
+        /// </summary>
+        [Test]
+        public void Given_InvalidUserID_ThrowsException()
+        {
+            Ride rideOne = new Ride(4, 4);
+            Ride rideTwo = new Ride(2, 1);
+            rideRepository.AddRide("YB", rideOne);
+            rideRepository.AddRide("YB", rideTwo);
+
+            CabReservationException cabReservationException = Assert.Throws<CabReservationException>(() => generator.TotalFareForMultipleRides(rideRepository.getListByUserId("YMB")));
+            Assert.AreEqual(CabReservationException.ExceptionType.INVALID_USER_ID, cabReservationException.type);
         }
     }
 }

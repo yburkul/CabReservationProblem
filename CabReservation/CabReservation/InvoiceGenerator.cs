@@ -37,7 +37,7 @@ namespace CabReservation
             foreach(Ride ride in rides)
             {
                 TotalFare += TotalFareForSingleRide(ride);
-                NumOfRides += 1;
+                NumOfRides++;
             }
             AveragePerRide = TotalFare / NumOfRides;
             return TotalFare;
